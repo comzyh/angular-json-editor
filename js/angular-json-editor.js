@@ -59,16 +59,17 @@ angular.module('angularJsonEditor', ['RecursionHelper'])
             scope: {
                 content: '=',
                 'name': '=',
-                'dd':'&'
+                'deleteMe': '&deleteMe'
             },
             compile: function (element) {
                 // Use the compile function from the RecursionHelper,
                 // And return the linking function(s) which it returns
+                element.addClass('angular-json-editor');
                 return RecursionHelper.compile(element);
             },
             //template: '<div></div><ul><li ></li></ul>',
             templateUrl: "../template/angular-json-editor.html",
-            controller: ['$scope', function ($scope) {
+            controller: ['$scope','$timeout', function ($scope,$timeout) {
                 $scope.get_type = function () {
                     var content = $scope.content;
                     switch (typeof content) {
@@ -90,15 +91,26 @@ angular.module('angularJsonEditor', ['RecursionHelper'])
                             return 'undefined';
                             break;
                     };
-                }
-                $scope.delete_item = function(key) {
-                     if ($scope.get_type() == 'array')
-                        $scope.content.splice(key,1);
+                    }
+                $scope.delete_item = function (key) {
+                    if ($scope.get_type() == 'array')
+                        $scope.content.splice(key, 1);
                     if ($scope.get_type() == 'object')
                         delete $scope.content[key];
 
                 }
                 $scope.type = $scope.get_type();
+                $scope.editing = false;
+                $scope.begin_edit = function ($event) {
+                    $scope.editing = true;
+                    $timeout(function() {
+                        angular.element($event.target).parent().find('input')[0].focus();
+                    }, 0, false);
+
+                }
+                $scope.end_edit = function () {
+                    $scope.editing = false;
+                }
             }]
         }
     }

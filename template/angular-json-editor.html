@@ -1,15 +1,19 @@
-<div class="json-editor heading">
-    <label>{{name}}</label>
-    <span ng-show="type != 'object' && type != 'array' "><input  type="text" ng-model="content">{{content | json}}</span>
-    <button ng-click="dd()">x</button>
+<div class="json-editor-heading">
+    <b>{{name}}</b>
+        <span ng-show="type != 'object' && type != 'array' ">
+            <input ng-show="editing" type="text" ng-model="content" ng-blur="end_edit()">
+            <span ng-hide="editing" ng-click="begin_edit($event)">{{content}}</span>
+        </span>
+    <button type="button" class="close" aria-label="Close" ng-click="deleteMe()"><span
+            aria-hidden="true">&times;</span></button>
 </div>
 <ul ng-if="type == 'object'">
-    <li ng-repeat="(key, value) in content" >
-        <json-editor content="content[key]" name="key" dd="delete_item(key)"></json-editor>
+    <li ng-repeat="(key, value) in content">
+        <json-editor content="content[key]" name="key" delete-me="delete_item(key)"></json-editor>
     </li>
 </ul>
 <ul ng-if="type == 'array'">
-    <li ng-repeat="value in content track by $index">
-        <json-editor content="content[$index]" name="$index" dd="delete_item($index)"></json-editor>
+    <li ng-repeat="value in content">
+        <json-editor content="content[$index]" name="$index" delete-me="delete_item($index)"></json-editor>
     </li>
 </ul>
