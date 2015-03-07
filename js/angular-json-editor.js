@@ -58,7 +58,8 @@ angular.module('angularJsonEditor', ['RecursionHelper'])
             //replace: true,
             scope: {
                 content: '=',
-                'name': '='
+                'name': '=',
+                'dd':'&'
             },
             compile: function (element) {
                 // Use the compile function from the RecursionHelper,
@@ -68,7 +69,7 @@ angular.module('angularJsonEditor', ['RecursionHelper'])
             //template: '<div></div><ul><li ></li></ul>',
             templateUrl: "../template/angular-json-editor.html",
             controller: ['$scope', function ($scope) {
-                $scope.type = (function () {
+                $scope.get_type = function () {
                     var content = $scope.content;
                     switch (typeof content) {
                         case 'number':
@@ -88,15 +89,17 @@ angular.module('angularJsonEditor', ['RecursionHelper'])
                         case 'undefined':
                             return 'undefined';
                             break;
-                    }
-                })();
-                $scope.children = undefined;
-                if ( $scope.type == 'array' ||  $scope.type == 'object')
-                    $scope.children = $scope.content;
-            }
-            ]
+                    };
+                }
+                $scope.delete_item = function(key) {
+                     if ($scope.get_type() == 'array')
+                        $scope.content.splice(key,1);
+                    if ($scope.get_type() == 'object')
+                        delete $scope.content[key];
+
+                }
+                $scope.type = $scope.get_type();
+            }]
         }
     }
-)
-;
-//template: '<ul class="tree"><object-editor ng-repeat="(k, v) in content track by $index" object-type="displayType" key="k" value="content"></object-editor></ul>'
+);
