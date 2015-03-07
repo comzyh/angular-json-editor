@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>angular-json-editor demo</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/angular.js/1.3.8/angular.js"></script>
+    <script src="../js/angular-json-editor.js"></script>
+    <script src="demoapp.js"></script>
+</head>
+<body>
+<div class="container">
+    <div ng-controller="MyCtrl">
+        <fieldset>
+            <json-editor content="content" name="'asd'"></json-editor>
+            <label>JSON Object <pre>{{content | json}}</pre></label>
+        </fieldset>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div class="json-editor heading">
+    <label>{{name}}</label>
+
+    <span ng-if="type != 'object' && type != 'array' ">{{content}}</span>
+</div>
+<ul ng-if="type == 'object'">
+    <li ng-repeat="(key, value) in children track by $index" >
+        <json-editor content="value" name="key" ></json-editor>
+    </li>
+</ul>
+<ul ng-if="type == 'array'">
+    <li ng-repeat="value in children track by $index">
+        <json-editor content="value" name="$index" ></json-editor>
+    </li>
+</ul>
